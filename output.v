@@ -7,21 +7,32 @@ module output_m(  input wire `CLOCK_T clock,
 
   reg unsigned [2:0]_iterator = 0;
 
+  // lookup table for output characters
+  reg unsigned [7:0]char_table [2:0];
+
   // header text
   initial begin
-    $display("\n(0,0), (0,1), (0,2); (1,0), (1,1), (1,2); (2,0), (2,1), (2,2)\n");
+    char_table[0] = "_";
+    char_table[1] = "X";
+    char_table[2] = "O";
+    //$display("%c, %c, %c", char_table[0], char_table[1], char_table[2]);
   end
 
   // Output on the negative edge because everything happens on positive edges.
   // This guarantees that the state will be settled when it's time to print.
   always @( negedge clock ) begin
     // man, I wish we could use ncurses
-    // since we can't, we're limited to one line of output so we can overwrite it
-    //$write("%02d, %02d, %02d; %02d, %02d, %02d; %02d, %02d, %02d\015",
-    $write("%02d, %02d, %02d; %02d, %02d, %02d; %02d, %02d, %02d\n",
+    /*
+    $write("%02d %02d %02d\n%02d %02d %02d\n%02d %02d %02d\n\n",
       board[0], board[1], board[2], 
       board[3], board[4], board[5],
       board[6], board[7], board[8]);
+    */
+   //$write("\n%c  %c  %c\n%c  %c  %c\n%c  %c  %c\n",
+   $write("\n%c %c %c\n%c %c %c\n%c %c %c\n",
+     char_table[board[0]], char_table[board[1]], char_table[board[2]], 
+     char_table[board[3]], char_table[board[4]], char_table[board[5]], 
+     char_table[board[6]], char_table[board[7]], char_table[board[8]]);
 
     // just a quick test loop, used in conjunction with the logic in board.v
     if( !(~_iterator) ) begin
