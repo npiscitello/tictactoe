@@ -1,6 +1,4 @@
-// This is gonna have to be defined in every module that uses the clock.
-// I'm sure there's a cleaner way to do it, but I can't think of one right now...
-`define CLOCK_T       unsigned [0:0]
+`include "defines.v"
 
 module output_m(  input wire `CLOCK_T clock,
                   input wire `BOARD_T `STATE_T board );
@@ -8,13 +6,14 @@ module output_m(  input wire `CLOCK_T clock,
   reg unsigned [2:0]_iterator = 0;
 
   // lookup table for output characters
-  reg unsigned [7:0]char_table [2:0];
+  reg unsigned [7:0]char_table [3:0];
 
-  // header text
+  // initialize the character table
   initial begin
-    char_table[0] = "_";
-    char_table[1] = "X";
-    char_table[2] = "O";
+    char_table[`CELL_BLANK] = "_";
+    char_table[`CELL_X] = "X";
+    char_table[`CELL_O] = "O";
+    char_table[`CELL_RSVD] = "?";
   end
 
   // Output on the negative edge because everything happens on positive edges.

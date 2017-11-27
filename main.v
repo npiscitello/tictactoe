@@ -1,12 +1,9 @@
+`include "defines.v"
 `include "board.v"
 `include "output.v"
 
 // uncomment below or pass -DDEBUG at compile time for verbose output
 //`define DEBUG
-
-// This is gonna have to be defined in every module that uses the clock.
-// I'm sure there's a cleaner way to do it, but I can't think of one right now...
-`define CLOCK_T       unsigned [0:0]
 
 module main;
 
