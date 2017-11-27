@@ -3,8 +3,6 @@
 module output_m(  input wire `CLOCK_T clock,
                   input wire `BOARD_T `STATE_T board );
 
-  reg unsigned [2:0]_iterator = 0;
-
   // lookup table for output characters
   reg unsigned [7:0]char_table [3:0];
 
@@ -24,13 +22,6 @@ module output_m(  input wire `CLOCK_T clock,
      char_table[board[0]], char_table[board[1]], char_table[board[2]], 
      char_table[board[3]], char_table[board[4]], char_table[board[5]], 
      char_table[board[6]], char_table[board[7]], char_table[board[8]]);
-
-    // just a quick test loop, used in conjunction with the logic in board.v
-    if( !(~_iterator) ) begin
-      $write("\n");
-      $finish;
-    end
-    _iterator = _iterator + 1;
 
   end
 

@@ -2,6 +2,9 @@
 
 // holds and manages board state (aka what's in every cell).
 module board_m( input wire `CLOCK_T clock,
+                input wire `INDEX_T update_loc,
+                input wire `STATE_T update_val,
+                input wire `FLAG_T reset,
                 output wire `BOARD_T `STATE_T board );
 
   reg `BOARD_T `STATE_T _board;
@@ -11,6 +14,8 @@ module board_m( input wire `CLOCK_T clock,
 
   // we want to make sure the board is always in a valid state
   // this is probably overkill and may be dropped later
+  // we can't modify _board in 2 different always blocks!
+  /*
   always @( _board ) begin
     for( row = 0; row < `BOARD_ROWS; row = row + 1 ) begin
       for( col = 0; col < `BOARD_COLS; col = col + 1 ) begin
@@ -19,6 +24,7 @@ module board_m( input wire `CLOCK_T clock,
       end
     end
   end
+  */
 
   // start with a blank board
   initial begin
@@ -30,16 +36,20 @@ module board_m( input wire `CLOCK_T clock,
   end
 
   always @( posedge clock ) begin
-    // increment every cell as a test
-    _board[0] = _board[0] + 1;
-    _board[1] = _board[1] + 1;
-    _board[2] = _board[2] + 1;
-    _board[3] = _board[3] + 1;
-    _board[4] = _board[4] + 1;
-    _board[5] = _board[5] + 1;
-    _board[6] = _board[6] + 1;
-    _board[7] = _board[7] + 1;
-    _board[8] = _board[8] + 1;
+
+    // clear the board if asked
+    if( reset ) begin
+      _board = 0;
+    end
+
+    // validate index
+    if( update_loc < `BOARD_ROWS * `BOARD_COLS ) begin
+      // we only want to update the location if it's blank
+      if( _board[update_loc] == `CELL_BLANK ) begin
+        _board[update_loc] = update_val;
+      end
+    end
+
   end
 
 endmodule
