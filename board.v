@@ -26,6 +26,22 @@ module board_m( output wire `FLAG_T turn,
   // on falling edge so we know everything's reset before we continue
   always @( negedge submit ) begin
 
+    // win? yay! we're done!
+    // There's definitely a better way to do this but mumble mumble premature optimization...
+    // there are 8 unique win conditions, we need to check them all
+    // in order: 3 horizontal, 3 vertical, 2 diagonal
+    if( (_board[0] == _board[1] && _board[1] == _board[2] && (_board[0] == `CELL_X || _board[0] == `CELL_O)) ||
+        (_board[3] == _board[4] && _board[4] == _board[5] && (_board[3] == `CELL_X || _board[3] == `CELL_O)) ||
+        (_board[6] == _board[7] && _board[7] == _board[8] && (_board[6] == `CELL_X || _board[6] == `CELL_O)) ||
+        (_board[0] == _board[3] && _board[3] == _board[6] && (_board[0] == `CELL_X || _board[0] == `CELL_O)) ||
+        (_board[1] == _board[4] && _board[4] == _board[7] && (_board[1] == `CELL_X || _board[1] == `CELL_O)) ||
+        (_board[2] == _board[5] && _board[5] == _board[8] && (_board[2] == `CELL_X || _board[2] == `CELL_O)) ||
+        (_board[0] == _board[4] && _board[4] == _board[8] && (_board[0] == `CELL_X || _board[0] == `CELL_O)) ||
+        (_board[2] == _board[4] && _board[4] == _board[6] && (_board[2] == `CELL_X || _board[2] == `CELL_O)) ) begin
+      $display("\nCongrats! Someone won!\n");
+      $finish;
+    end
+
     // if triggered, clear the board and reset the game...
     if( reset ) begin
       `DEBUG_LOG("board reset");

@@ -28,17 +28,20 @@ module player_m(  input wire `FLAG_T turn,
 
       case( _turn_counter )
         0: begin
-          #1 _update_loc = 0; _submit = 1;
-          #1 _submit = 0;
-        end
-
-        1: begin
+          //#1 _update_loc = 0; _submit = 1;
           #1 _update_loc = 2; _submit = 1;
           #1 _submit = 0;
         end
 
+        1: begin
+          //#1 _update_loc = 2; _submit = 1;
+          #1 _update_loc = 4; _submit = 1;
+          #1 _submit = 0;
+        end
+
         2: begin
-          #1 _update_loc = 5; _submit = 1;
+          //#1 _update_loc = 5; _submit = 1;
+          #1 _update_loc = 6; _submit = 1;
           #1 _submit = 0;
         end
 
