@@ -50,8 +50,9 @@ module player_m(  input wire `FLAG_T turn,
         4: begin
           #1 _reset = 1; _submit = 1;
           #1 _submit = 0;
+        end
 
-          // resetting sets it to the player's turn, so it won't re-trigger the always block
+        5: begin
           #1 _reset = 0; _update_loc = 8; _submit = 1;
           #1 _submit = 0;
         end

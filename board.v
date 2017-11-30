@@ -29,6 +29,10 @@ module board_m( output wire `FLAG_T turn,
     // if triggered, clear the board and reset the game...
     if( reset ) begin
       `DEBUG_LOG("board reset");
+      // This triggers the AI but ignores it's move b/c the board is being reset anyways. The
+      // purpose of doing this is to provide a transition to the player's turn so as to trigger the
+      // always block for the player again.
+      _turn = `TURN_AI;
       _board = 0;
       _turn = `TURN_PLAYER;
 

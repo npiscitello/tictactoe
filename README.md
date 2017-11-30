@@ -9,3 +9,9 @@ the desired move location and toggle the 'submit' flag twice (one rising and one
 do this double flip because the board module looks for the falling edge; this guarantees everything
 has been set and is stable before we start interpreting the input. The turn is only flipped if a
 valid move has been made. A reset moves it back to the player's turn.
+
+# Hardware Port
+This should port very nicely to hardware - it was designed to be asynchronous, triggered on the
+submit flag. Basically, the user should be able to adjust toggle switches (or another input method)
+to indicate his or her desired move and then press the submit button. If nothing happens, it was an
+invalid move. The reset button will reset the board and return to the player's turn.
