@@ -21,9 +21,7 @@ module player_m(  input wire `FLAG_T turn,
 
   always @( turn ) begin
     if( turn == `TURN_PLAYER ) begin
-`ifdef DEBUG
-      $display("Player's turn, round %d", _turn_counter);
-`endif
+      `DEBUG_LOG("Player's turn");
       case( _turn_counter )
         0: begin
           #2 _update_loc = 0; _update_val = `CELL_X; _submit = 1;

@@ -4,6 +4,13 @@
 // uncomment below or pass -DDEBUG at compile time for verbose output
 //`define DEBUG
 
+// no variadic macros so we're stuck with static debug messages
+`ifdef DEBUG
+  `define DEBUG_LOG(A) $display(A)
+`else
+  `define DEBUG_LOG(A)
+`endif
+
 `define BOARD_ROWS    3
 `define BOARD_COLS    3
 
