@@ -1,6 +1,9 @@
 `ifndef DEFINES_V
 `define DEFINES_V
 
+// uncomment below or pass -DDEBUG at compile time for verbose output
+//`define DEBUG
+
 `define BOARD_ROWS    3
 `define BOARD_COLS    3
 
@@ -15,5 +18,10 @@
 `define CELL_X        1
 `define CELL_O        2
 `define CELL_RSVD     3
+
+// these cannot change due to the ternaries in the assigns of the player and ai modules
+// I wish I could use an explicit if statement, but that doesn't work outside of an always block
+`define TURN_PLAYER   0
+`define TURN_AI       1
 
 `endif

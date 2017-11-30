@@ -1,6 +1,6 @@
 `include "defines.v"
 
-module output_m(  input wire `FLAG_T refresh,
+module output_m(  input wire `FLAG_T turn,
                   input wire `BOARD_T `STATE_T board );
 
   // lookup table for output characters
@@ -14,7 +14,8 @@ module output_m(  input wire `FLAG_T refresh,
     char_table[`CELL_RSVD] = "?";
   end
 
-  always @( refresh ) begin
+  // we want to update the display every time a turn ends
+  always @( turn ) begin
     // man, I wish we could use ncurses
    $write("\n%c %c %c\n%c %c %c\n%c %c %c\n",
      char_table[board[0]], char_table[board[1]], char_table[board[2]], 
