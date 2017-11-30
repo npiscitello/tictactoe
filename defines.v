@@ -4,7 +4,6 @@
 `define BOARD_ROWS    3
 `define BOARD_COLS    3
 
-`define CLOCK_T       unsigned [0:0]
 `define STATE_T       [1:0]
 `define BOARD_T       [(`BOARD_ROWS * `BOARD_COLS - 1):0]
 `define FLAG_T        unsigned [0:0]

@@ -1,6 +1,6 @@
 `include "defines.v"
 
-module output_m(  input wire `CLOCK_T clock,
+module output_m(  input wire `FLAG_T refresh,
                   input wire `BOARD_T `STATE_T board );
 
   // lookup table for output characters
@@ -14,9 +14,7 @@ module output_m(  input wire `CLOCK_T clock,
     char_table[`CELL_RSVD] = "?";
   end
 
-  // Output on the negative edge because everything happens on positive edges.
-  // This guarantees that the state will be settled when it's time to print.
-  always @( negedge clock ) begin
+  always @( refresh ) begin
     // man, I wish we could use ncurses
    $write("\n%c %c %c\n%c %c %c\n%c %c %c\n",
      char_table[board[0]], char_table[board[1]], char_table[board[2]], 
