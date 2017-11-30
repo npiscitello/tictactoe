@@ -7,10 +7,12 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
               output wire `STATE_T update_val,
               output wire `FLAG_T submit,
               output wire `FLAG_T reset );
+
   reg `INDEX_T _update_loc;
   reg `STATE_T _update_val;
   reg `FLAG_T _submit;
   reg `FLAG_T _reset;
+
   // The regs are hooked up to the output wires by way of tri-state buffers, enabled when
   // it's the ai's turn and disabled when it's the player's turn.
   assign update_loc = turn ? _update_loc : 'bz;
@@ -68,7 +70,6 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
         #2 _update_loc = 8; _update_val = `CELL_O; _submit = 1;
         #2 _submit = 0;
       end
-
     end
   end
 

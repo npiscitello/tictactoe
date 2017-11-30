@@ -27,18 +27,17 @@ module board_m( output wire `FLAG_T turn,
   // on falling edge so we know everything's reset before we continue
   always @( negedge submit ) begin
 
-    // clear the board if asked
+    // if triggered, clear the board and reset the game...
     if( reset ) begin
+      `DEBUG_LOG("board reset");
       _board = 0;
-    end
+      _turn = `TURN_PLAYER;
 
-    // validate index
-    if( update_loc < `BOARD_ROWS * `BOARD_COLS ) begin
+    // ...or, if not, make the move
+    end else if( update_loc < `BOARD_ROWS * `BOARD_COLS ) begin
       // we only want to do anything if it's a valid move
       if( _board[update_loc] == `CELL_BLANK ) begin
-`ifdef DEBUG
-        $display("board update");
-`endif
+        `DEBUG_LOG("board update");
         _board[update_loc] = update_val;
         _turn = ~turn;
       end
