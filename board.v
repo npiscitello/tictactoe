@@ -3,7 +3,6 @@
 // holds and manages board state (aka what's in every cell).
 module board_m( output wire `FLAG_T turn,
                 input wire `INDEX_T update_loc,
-                input wire `STATE_T update_val,
                 input wire `FLAG_T submit,
                 input wire `FLAG_T reset,
                 output wire `BOARD_T `STATE_T board );
@@ -38,7 +37,7 @@ module board_m( output wire `FLAG_T turn,
       // we only want to do anything if it's a valid move
       if( _board[update_loc] == `CELL_BLANK ) begin
         `DEBUG_LOG("board update");
-        _board[update_loc] = update_val;
+        _board[update_loc] = _turn ? `CELL_O : `CELL_X;
         _turn = ~turn;
       end
     end

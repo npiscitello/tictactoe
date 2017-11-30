@@ -4,7 +4,6 @@
 module ai_m(  input wire `BOARD_T `STATE_T board_state,
               input wire `FLAG_T turn,
               output wire `INDEX_T update_loc,
-              output wire `STATE_T update_val,
               output wire `FLAG_T submit,
               output wire `FLAG_T reset );
 
@@ -27,47 +26,47 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
 
       if( board_state[0] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 0");
-        #2 _update_loc = 0; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 0; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[1] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 1");
-        #2 _update_loc = 1; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 1; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[2] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 2");
-        #2 _update_loc = 2; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 2; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[3] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 3");
-        #2 _update_loc = 3; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 3; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[4] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 4");
-        #2 _update_loc = 4; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 4; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[5] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 5");
-        #2 _update_loc = 5; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 5; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[6] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 6");
-        #2 _update_loc = 6; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 6; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[7] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 7");
-        #2 _update_loc = 7; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 7; _submit = 1;
         #2 _submit = 0;
 
       end else if( board_state[8] == `CELL_BLANK ) begin
         `DEBUG_LOG("[AI] writing to position 8");
-        #2 _update_loc = 8; _update_val = `CELL_O; _submit = 1;
+        #2 _update_loc = 8; _submit = 1;
         #2 _submit = 0;
       end
     end
