@@ -1,5 +1,10 @@
 `include "defines.v"
 
+// edit this macro or define it at compile time to select the game
+`ifndef GAME_SELECTION
+  `define GAME_SELECTION 0
+`endif
+
 // generates inputs for the board
 module player_m(  input wire `FLAG_T turn,
                   output wire `INDEX_T update_loc,
@@ -26,14 +31,30 @@ module player_m(  input wire `FLAG_T turn,
       $display("[PLAYER] turn: %d", _turn_counter);
 `endif
 
-      case( _turn_counter )
-        0: begin `SUBMIT_MOVE(4); end
-        1: begin `SUBMIT_MOVE(3); end
-        2: begin `SUBMIT_MOVE(6); end
-        3: begin `SUBMIT_MOVE(8); end
-        4: begin `SUBMIT_MOVE(1); end
-      endcase
+      case( `GAME_SELECTION )
+        // Player takes center, AI wins
+        // this game is 0 (or any other invalid number)
+        default: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(4); end
+            1: begin `SUBMIT_MOVE(3); end
+            2: begin `SUBMIT_MOVE(6); end
+            3: begin `SUBMIT_MOVE(8); end
+            4: begin `SUBMIT_MOVE(1); end
+          endcase
+        end
 
+        // Player takes center, tie
+        1: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(4); end
+            1: begin `SUBMIT_MOVE(3); end
+            2: begin `SUBMIT_MOVE(1); end
+            3: begin `SUBMIT_MOVE(8); end
+            4: begin `SUBMIT_MOVE(6); end
+          endcase
+        end
+      endcase
       _turn_counter = _turn_counter + 1;
     end
   end

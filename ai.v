@@ -29,6 +29,7 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
       // maze of if statements is how it's gonna be. I'm sorry. :(
       // One possibility that crossed my mind was for loops, but Verilog has no provision to break
       // loops early, so that kills any hope of doing that...
+      // Is there possibly a way to leverage a case statement?
 
       // the center is the most desirable cell - if it's open, take it!
       if( board_state[4] == `CELL_BLANK ) begin
