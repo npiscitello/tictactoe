@@ -21,13 +21,17 @@ module player_m(  input wire `FLAG_T turn,
 
   always @( turn ) begin
     if( turn == `TURN_PLAYER ) begin
-      `DEBUG_LOG("Player's turn");
+      `DEBUG_LOG(">>> Player's turn <<<");
+`ifdef DEBUG
+      $display("[PLAYER] turn: %d", _turn_counter);
+`endif
 
       case( _turn_counter )
-        0: begin `SUBMIT_MOVE(0); end
+        0: begin `SUBMIT_MOVE(4); end
         1: begin `SUBMIT_MOVE(3); end
-        2: begin `SUBMIT_MOVE(8); end
-        3: begin `SUBMIT_MOVE(5); end
+        2: begin `SUBMIT_MOVE(6); end
+        3: begin `SUBMIT_MOVE(7); end
+        4: begin `SUBMIT_MOVE(1); end
       endcase
 
       _turn_counter = _turn_counter + 1;
