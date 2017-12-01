@@ -30,7 +30,7 @@ module player_m(  input wire `FLAG_T turn,
         0: begin `SUBMIT_MOVE(4); end
         1: begin `SUBMIT_MOVE(3); end
         2: begin `SUBMIT_MOVE(6); end
-        3: begin `SUBMIT_MOVE(7); end
+        3: begin `SUBMIT_MOVE(8); end
         4: begin `SUBMIT_MOVE(1); end
       endcase
 

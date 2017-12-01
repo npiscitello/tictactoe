@@ -38,9 +38,36 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
       // Ok, so the center is taken. If it's ours, that's good!
       end else if( board_state[4] == `CELL_O ) begin
         `DEBUG_LOG("[AI] the center is stil miiiiine!");
-        // The player has 4 win opportunities. Are any of them ready?
+
+        // Can we win? We have 4 opportunities. And, we know we have the center.
+        // (actually, we could win anywhere, but it's unlikely. I might add that in later.)
+        // horizontal middle
+        if( board_state[3] == `CELL_O && board_state[5] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(5);
+        end else if( board_state[3] == `CELL_BLANK && board_state[5] == `CELL_O ) begin
+          `SUBMIT_MOVE(3);
+
+        // vertical middle
+        end else if( board_state[1] == `CELL_O && board_state[7] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(7);
+        end else if( board_state[1] == `CELL_BLANK && board_state[7] == `CELL_O ) begin
+          `SUBMIT_MOVE(1);
+
+        // top left diagonal
+        end else if( board_state[0] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[0] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(0);
+
+        // top right diagonal
+        end else if( board_state[2] == `CELL_O && board_state[6] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(6);
+        end else if( board_state[2] == `CELL_BLANK && board_state[6] == `CELL_O ) begin
+          `SUBMIT_MOVE(2);
+
+        // We can't win... can the player? They have 4 opportunities. Are any of them ready?
         // horizontal top
-        if( board_state[0] == `CELL_X && board_state[1] == `CELL_X && board_state[2] == `CELL_BLANK ) begin
+        end if( board_state[0] == `CELL_X && board_state[1] == `CELL_X && board_state[2] == `CELL_BLANK ) begin
           `SUBMIT_MOVE(2);
         end else if( board_state[0] == `CELL_X && board_state[1] == `CELL_BLANK && board_state[2] == `CELL_X ) begin
           `SUBMIT_MOVE(1);
@@ -71,33 +98,7 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
         end else if( board_state[2] == `CELL_BLANK && board_state[5] == `CELL_X && board_state[8] == `CELL_X ) begin
           `SUBMIT_MOVE(2);
 
-        // so the player can't win yet...can we? We have 4 win opportunities. And, we know we have the center.
-        // (actually, we could win anywhere, but it's unlikely. I might add that in later.)
-        // horizontal middle
-        end else if( board_state[3] == `CELL_O && board_state[5] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(5);
-        end else if( board_state[3] == `CELL_BLANK && board_state[5] == `CELL_O ) begin
-          `SUBMIT_MOVE(3);
-
-        // vertical middle
-        end else if( board_state[1] == `CELL_O && board_state[7] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(7);
-        end else if( board_state[1] == `CELL_BLANK && board_state[7] == `CELL_O ) begin
-          `SUBMIT_MOVE(1);
-
-        // top left diagonal
-        end else if( board_state[0] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(8);
-        end else if( board_state[0] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
-          `SUBMIT_MOVE(0);
-
-        // top right diagonal
-        end else if( board_state[2] == `CELL_O && board_state[6] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(6);
-        end else if( board_state[2] == `CELL_BLANK && board_state[6] == `CELL_O ) begin
-          `SUBMIT_MOVE(2);
-
-        // OK, so we can't win either. Just kind of...fill clockwise until something happens?
+        // OK, so they can't win either. Just kind of...fill clockwise until something happens?
         end else if( board_state[0] == `CELL_BLANK ) begin
           `SUBMIT_MOVE(0);
         end else if( board_state[1] == `CELL_BLANK ) begin
@@ -121,9 +122,43 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
       end else begin
         // note, this whole section is basically the logic above inverted (WRT cell contents)
         `DEBUG_LOG("[AI] You took the center? You'll pay for that!");
-        // The player has 4 main win opportunities. Are any of them ready?
+
+        // Can we win? We have the same 4 possibilities we just checked...
+        // horiontal top
+        if( board_state[0] == `CELL_O && board_state[1] == `CELL_O && board_state[2] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(2);
+        end else if( board_state[0] == `CELL_O && board_state[1] == `CELL_BLANK && board_state[2] == `CELL_O ) begin
+          `SUBMIT_MOVE(1);
+        end else if( board_state[0] == `CELL_BLANK && board_state[1] == `CELL_O && board_state[2] == `CELL_O ) begin
+          `SUBMIT_MOVE(0);
+
+        // horizontal bottom
+        end else if( board_state[6] == `CELL_O && board_state[7] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[6] == `CELL_O && board_state[7] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(7);
+        end else if( board_state[6] == `CELL_BLANK && board_state[7] == `CELL_O && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(6);
+
+        // vertical left
+        end else if( board_state[0] == `CELL_O && board_state[3] == `CELL_O && board_state[6] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(6);
+        end else if( board_state[0] == `CELL_O && board_state[3] == `CELL_BLANK && board_state[6] == `CELL_O ) begin
+          `SUBMIT_MOVE(3);
+        end else if( board_state[0] == `CELL_BLANK && board_state[3] == `CELL_O && board_state[6] == `CELL_O ) begin
+          `SUBMIT_MOVE(0);
+
+        // vertical right
+        end else if( board_state[2] == `CELL_O && board_state[5] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[2] == `CELL_O && board_state[5] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(5);
+        end else if( board_state[2] == `CELL_BLANK && board_state[5] == `CELL_O && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(2);
+
+        // Darn, we can't win. Can the player? They have 4 main opportunities. Are any of them ready?
         // horizontal middle
-        if( board_state[3] == `CELL_X && board_state[5] == `CELL_BLANK ) begin
+        end else if( board_state[3] == `CELL_X && board_state[5] == `CELL_BLANK ) begin
           `SUBMIT_MOVE(5);
         end else if( board_state[3] == `CELL_BLANK && board_state[5] == `CELL_X ) begin
           `SUBMIT_MOVE(3);
@@ -179,40 +214,7 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
         end else if( board_state[2] == `CELL_BLANK && board_state[5] == `CELL_X && board_state[8] == `CELL_X ) begin
           `SUBMIT_MOVE(2);
 
-        // hmm. Good for us, the player can't win. Can we? We have the same 4 possibilities we just checked...
-        // horiontal top
-        end if( board_state[0] == `CELL_O && board_state[1] == `CELL_O && board_state[2] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(2);
-        end else if( board_state[0] == `CELL_O && board_state[1] == `CELL_BLANK && board_state[2] == `CELL_O ) begin
-          `SUBMIT_MOVE(1);
-        end else if( board_state[0] == `CELL_BLANK && board_state[1] == `CELL_O && board_state[2] == `CELL_O ) begin
-          `SUBMIT_MOVE(0);
-
-        // horizontal bottom
-        end else if( board_state[6] == `CELL_O && board_state[7] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(8);
-        end else if( board_state[6] == `CELL_O && board_state[7] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
-          `SUBMIT_MOVE(7);
-        end else if( board_state[6] == `CELL_BLANK && board_state[7] == `CELL_O && board_state[8] == `CELL_O ) begin
-          `SUBMIT_MOVE(6);
-
-        // vertical left
-        end else if( board_state[0] == `CELL_O && board_state[3] == `CELL_O && board_state[6] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(6);
-        end else if( board_state[0] == `CELL_O && board_state[3] == `CELL_BLANK && board_state[6] == `CELL_O ) begin
-          `SUBMIT_MOVE(3);
-        end else if( board_state[0] == `CELL_BLANK && board_state[3] == `CELL_O && board_state[6] == `CELL_O ) begin
-          `SUBMIT_MOVE(0);
-
-        // vertical right
-        end else if( board_state[2] == `CELL_O && board_state[5] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
-          `SUBMIT_MOVE(8);
-        end else if( board_state[2] == `CELL_O && board_state[5] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
-          `SUBMIT_MOVE(5);
-        end else if( board_state[2] == `CELL_BLANK && board_state[5] == `CELL_O && board_state[8] == `CELL_O ) begin
-          `SUBMIT_MOVE(2);
-
-        // OK, so we can't win either. Just kind of...fill clockwise until something happens?
+        // OK, so they can't win either. Just kind of...fill clockwise until something happens?
         end else if( board_state[0] == `CELL_BLANK ) begin
           `SUBMIT_MOVE(0);
         end else if( board_state[1] == `CELL_BLANK ) begin

@@ -63,11 +63,9 @@ module board_m( output wire `FLAG_T turn,
     end
 
     // Stalemate? That sucks...
-    //if( _board[0] != `CELL_BLANK && _board[1] != `CELL_BLANK && _board[2] != `CELL_BLANK &&
-        //_board[3] != `CELL_BLANK && _board[4] != `CELL_BLANK && _board[5] != `CELL_BLANK &&
-        //_board[6] != `CELL_BLANK && _board[7] != `CELL_BLANK && _board[8] != `CELL_BLANK) begin
-    if( _board[0] * _board[1] * _board[2] * _board[3] * _board[4] *
-        _board[5] * _board[6] * _board[7] * _board[8] != 0 ) begin
+    if( _board[0] != `CELL_BLANK && _board[1] != `CELL_BLANK && _board[2] != `CELL_BLANK &&
+        _board[3] != `CELL_BLANK && _board[4] != `CELL_BLANK && _board[5] != `CELL_BLANK &&
+        _board[6] != `CELL_BLANK && _board[7] != `CELL_BLANK && _board[8] != `CELL_BLANK) begin
       #1 $display("\nGood playing! You tied!\n");
       $finish;
     end
