@@ -31,4 +31,8 @@
 `define TURN_PLAYER   0
 `define TURN_AI       1
 
+// these are to shorten board commands
+`define SUBMIT_MOVE(A) #1 _update_loc = A; _submit = 1; #1 _submit = 0;
+`define SUBMIT_RESET #1 _reset = 1; _submit = 1; #1 _submit = 0; #1 _reset = 0;
+
 `endif

@@ -24,50 +24,98 @@ module ai_m(  input wire `BOARD_T `STATE_T board_state,
     if( turn == `TURN_AI ) begin
       `DEBUG_LOG("AI's turn");
 
-      if( board_state[0] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 0");
-        #2 _update_loc = 0; _submit = 1;
-        #2 _submit = 0;
+      // Fair warning: a lot of the logic below could be more efficiently implemented with loops,
+      // but verilog has no provision to break loops early!
 
-      end else if( board_state[1] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 1");
-        #2 _update_loc = 1; _submit = 1;
-        #2 _submit = 0;
+      // the center is the most desirable cell - if it's open, take it!
+      if( board_state[4] == `CELL_BLANK ) begin
+        `DEBUG_LOG("[AI] the center is miiiine!");
+        `SUBMIT_MOVE(4);
 
-      end else if( board_state[2] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 2");
-        #2 _update_loc = 2; _submit = 1;
-        #2 _submit = 0;
+      // Ok, so the center is taken. If it's ours, that's good!
+      end else if( board_state[4] == `CELL_O ) begin
+        // yay! we have the center! The player has 4 win opportunities. Are any of them ready?
+        `DEBUG_LOG("[AI] the center is stil miiiiine!");
+        // horizontal top
+        if( board_state[0] == `CELL_X && board_state[1] == `CELL_X && board_state[2] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(2);
+        end else if( board_state[0] == `CELL_X && board_state[1] == `CELL_BLANK && board_state[2] == `CELL_X ) begin
+          `SUBMIT_MOVE(1);
+        end else if( board_state[0] == `CELL_BLANK && board_state[1] == `CELL_X && board_state[2] == `CELL_X ) begin
+          `SUBMIT_MOVE(0);
 
-      end else if( board_state[3] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 3");
-        #2 _update_loc = 3; _submit = 1;
-        #2 _submit = 0;
+        // horizontal bottom
+        end else if( board_state[6] == `CELL_X && board_state[7] == `CELL_X && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[6] == `CELL_X && board_state[7] == `CELL_BLANK && board_state[8] == `CELL_X ) begin
+          `SUBMIT_MOVE(7);
+        end else if( board_state[6] == `CELL_BLANK && board_state[7] == `CELL_X && board_state[8] == `CELL_X ) begin
+          `SUBMIT_MOVE(6);
 
-      end else if( board_state[4] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 4");
-        #2 _update_loc = 4; _submit = 1;
-        #2 _submit = 0;
+        // vertical left
+        end else if( board_state[0] == `CELL_X && board_state[3] == `CELL_X && board_state[6] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(6);
+        end else if( board_state[0] == `CELL_X && board_state[3] == `CELL_BLANK && board_state[6] == `CELL_X ) begin
+          `SUBMIT_MOVE(3);
+        end else if( board_state[0] == `CELL_BLANK && board_state[3] == `CELL_X && board_state[6] == `CELL_X ) begin
+          `SUBMIT_MOVE(0);
 
-      end else if( board_state[5] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 5");
-        #2 _update_loc = 5; _submit = 1;
-        #2 _submit = 0;
+        // vertical right
+        end else if( board_state[2] == `CELL_X && board_state[5] == `CELL_X && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[2] == `CELL_X && board_state[5] == `CELL_BLANK && board_state[8] == `CELL_X ) begin
+          `SUBMIT_MOVE(5);
+        end else if( board_state[2] == `CELL_BLANK && board_state[5] == `CELL_X && board_state[8] == `CELL_X ) begin
+          `SUBMIT_MOVE(2);
+ 
+        // so the player can't win yet...can we? We have 4 win opportunities. And, we know we have the center.
+        // horizontal middle
+        end else if( board_state[3] == `CELL_O && board_state[5] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(5);
+        end else if( board_state[3] == `CELL_BLANK && board_state[5] == `CELL_O ) begin
+          `SUBMIT_MOVE(3);
 
-      end else if( board_state[6] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 6");
-        #2 _update_loc = 6; _submit = 1;
-        #2 _submit = 0;
+        // vertical middle
+        end else if( board_state[1] == `CELL_O && board_state[7] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(7);
+        end else if( board_state[1] == `CELL_BLANK && board_state[7] == `CELL_O ) begin
+          `SUBMIT_MOVE(1);
 
-      end else if( board_state[7] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 7");
-        #2 _update_loc = 7; _submit = 1;
-        #2 _submit = 0;
+        // top left diagonal
+        end else if( board_state[0] == `CELL_O && board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[0] == `CELL_BLANK && board_state[8] == `CELL_O ) begin
+          `SUBMIT_MOVE(0);
 
-      end else if( board_state[8] == `CELL_BLANK ) begin
-        `DEBUG_LOG("[AI] writing to position 8");
-        #2 _update_loc = 8; _submit = 1;
-        #2 _submit = 0;
+        // top right diagonal
+        end else if( board_state[2] == `CELL_O && board_state[6] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(6);
+        end else if( board_state[2] == `CELL_BLANK && board_state[6] == `CELL_O ) begin
+          `SUBMIT_MOVE(2);
+
+        // OK, so we can't win either. Just kind of...fill clockwise until something happens?
+        end else if( board_state[0] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(0);
+        end else if( board_state[1] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(1);
+        end else if( board_state[2] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(2);
+        end else if( board_state[5] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(5);
+        end else if( board_state[8] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(8);
+        end else if( board_state[7] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(7);
+        end else if( board_state[6] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(6);
+        end else if( board_state[3] == `CELL_BLANK ) begin
+          `SUBMIT_MOVE(3);
+        end else begin
+          `DEBUG_LOG("[AI] Somehow, I'm paralyzed in indecision...");
+        end
+
+      end else begin
+        // uh oh, the player has the center
       end
     end
   end

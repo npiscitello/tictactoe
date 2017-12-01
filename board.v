@@ -58,7 +58,7 @@ module board_m( output wire `FLAG_T turn,
       if( _board[update_loc] == `CELL_BLANK ) begin
         `DEBUG_LOG("board update");
         _board[update_loc] = _turn ? `CELL_O : `CELL_X;
-        _turn = ~turn;
+        #1 _turn = ~turn;
       end
     end
 
