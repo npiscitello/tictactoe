@@ -30,7 +30,6 @@ module player_m(  input wire `FLAG_T turn,
 `ifdef DEBUG
       $display("[PLAYER] turn: %d", _turn_counter);
 `endif
-
       case( `GAME_SELECTION )
         // Player takes center, AI wins
         // this game is 0 (or any other invalid number)
@@ -52,6 +51,27 @@ module player_m(  input wire `FLAG_T turn,
             2: begin `SUBMIT_MOVE(1); end
             3: begin `SUBMIT_MOVE(8); end
             4: begin `SUBMIT_MOVE(6); end
+          endcase
+        end
+
+        // AI takes center, AI wins
+        2: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(2); end
+            1: begin `SUBMIT_MOVE(0); end
+            2: begin `SUBMIT_MOVE(7); end
+            3: begin `SUBMIT_MOVE(8); end
+          endcase
+        end
+
+        // AI takes center, tie
+        3: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(8); end
+            1: begin `SUBMIT_MOVE(7); end
+            2: begin `SUBMIT_MOVE(2); end
+            3: begin `SUBMIT_MOVE(3); end
+            4: begin `SUBMIT_MOVE(1); end
           endcase
         end
       endcase

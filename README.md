@@ -45,6 +45,26 @@ cheap and hardware (connecting wires, input/output definitions, and synchromizat
 safety, if you will) is expensive in this case. The turn is only flipped if a valid move has been
 made. A reset moves it back to the player's turn, regardless of who called it. 
 
+To ease testing and demonstration, a few full games have been preloaded into the player module. You
+can choose one at compile time by editing the macro at the top of `player.v` or by specifying `-D
+GAME_SELECTION=X` in the compile command. The games are listed below; to use one, plug in its number
+for `X` in the command:
+
+* __0__: The player takes the center but the AI wins. This is also the default game if no game is
+  selected or the selection is invalid.
+* __1__: The player takes the center and ties the AI.
+* __2__: The AI takes the center and wins.
+* __3__: The AI takes the center and ties the player.
+
+Note that, due to the aggressive blocking, I have not found a game where the AI loses. This could be
+considered a flaw in our AI algorithm: its very frustrating to play against someone who never makes
+a mistake. We could mitigate this by adding in a random factor in every block and win check. In
+other words, we could cause it to sometimes not block or win, even when it was supposed to. However,
+this predictability is what allows us to specify these preset games in the first place. Since the AI
+will never make a mistake and we know how it thinks, we always know where its next move is going to
+be, which could be considered a weakness as well. Since this game is so simple, however, I consider
+this somewhat a weakness in the game itself; it's not hard to guess how a human will play either.
+
 # Extensibility
 The logic in this game is very specific to a 3x3, 2 player tic tac toe game. The most significant
 cause of this is the obscene network of conditionals in the AI and board modules to check the board
