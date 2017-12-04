@@ -74,6 +74,26 @@ module player_m(  input wire `FLAG_T turn,
             4: begin `SUBMIT_MOVE(1); end
           endcase
         end
+
+        // Player takes center, AI checkmate
+        4: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(4); end
+            1: begin `SUBMIT_MOVE(3); end
+            2: begin `SUBMIT_MOVE(6); end
+            3: begin `SUBMIT_MOVE(8); end
+          endcase
+        end
+
+        // Player takes center, AI checkmate
+        5: begin
+          case( _turn_counter )
+            0: begin `SUBMIT_MOVE(4); end
+            1: begin `SUBMIT_MOVE(3); end
+            2: begin `SUBMIT_MOVE(6); end
+            3: begin `SUBMIT_MOVE(1); end
+          endcase
+        end
       endcase
       _turn_counter = _turn_counter + 1;
     end

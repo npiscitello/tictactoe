@@ -55,6 +55,8 @@ for `X` in the command:
 * __1__: The player takes the center and ties the AI.
 * __2__: The AI takes the center and wins.
 * __3__: The AI takes the center and ties the player.
+* __4__: The player takes the center and checkmates the player.
+* __5__: Same as game 4, but the player blocks the other opportunity to prove it's really a checkmate
 
 Note that, due to the aggressive blocking, I have not found a game where the AI loses. This could be
 considered a flaw in our AI algorithm: its very frustrating to play against someone who never makes
